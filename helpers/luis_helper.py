@@ -9,9 +9,8 @@ from booking_details import BookingDetails
 
 
 class Intent(Enum):
-    BOOK_FLIGHT = "OrderTravelIntent" #"BookFlight"
+    BOOK_FLIGHT = "OrderTravelIntent"
     GREETING_INTENT= "GreetingsIntent"
-    #CANCEL = "Cancel"
     NONE_INTENT = "NoneIntent"
 
 
@@ -57,13 +56,11 @@ class LuisHelper:
                 # We need to get the result from the LUIS JSON which at every level returns an array.
                 #origin
                 from_entities = recognizer_result.entities.get("$instance", {}).get("DepartureCity", [])
-                print("FROM ENTITIES : ", from_entities)
                 if len(from_entities) > 0:
                     result.origin = from_entities[0]["text"].capitalize()
 
                 #destination
                 to_entities = recognizer_result.entities.get("$instance", {}).get("ArrivalCity", [])
-                print("TO ENTITIES : ", to_entities)
                 if len(to_entities) > 0:
                     result.destination = to_entities[0]["text"].capitalize()
 
@@ -72,12 +69,10 @@ class LuisHelper:
                 # the Time part. TIMEX is a format that represents DateTime expressions that include some ambiguity.
                 # e.g. missing a Year.
                 date_entities = recognizer_result.entities.get("datetime", [])
-                print("DATA ENTITIES :", date_entities)
                 if date_entities:
                     
                     if len(date_entities)==1:
                         timex = date_entities[0]["timex"]
-                        print("LEN = 1 - TIMEX :", timex)  
                         if date_entities[0]['type'] == 'daterange':
                             datetime_range = timex[0].strip('(').strip(')').split(',')
                             result.start_travel_date = datetime_range[0]
@@ -88,25 +83,16 @@ class LuisHelper:
                     elif len(date_entities)==2:
                         timex1 = date_entities[0]["timex"]
                         timex2 = date_entities[1]["timex"]
-                        print("LEN = 2 - TIMEX1 :", timex1[0])
-                        print("LEN = 2 - TIMEX2 :", timex2[0])
-                        
                         if timex1[0] <= timex2[0]:
                             result.start_travel_date = timex1[0]
                             result.end_travel_date = timex2[0]
                         else:
                             result.start_travel_date = timex2[0]
                             result.end_travel_date = timex1[0]
-                        """
-                        if date_entities[0]['type'] == 'date':
-                            result.start_travel_date = timex1[0]
-                        if date_entities[1]['type'] == 'date':
-                            result.end_travel_date = timex2[0]
-                        """
 
+                            
                 #budget
                 budget_entities = recognizer_result.entities.get("$instance", {}).get("Price", [])
-                print("BUDGET ENTITIES :", budget_entities)
                 if len(budget_entities) > 0:
                     result.budget = budget_entities[0]["text"]
 
