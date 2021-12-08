@@ -34,7 +34,7 @@ class FlightBookingRecognizer(Recognizer):
             )
 
             options = LuisPredictionOptions()
-            options.telemetry_client = telemetry_client or NullTelemetryClient()
+            options.telemetry_client = telemetry_client #or NullTelemetryClient()
 
             self._recognizer = LuisRecognizer(
                 luis_application, prediction_options=options
