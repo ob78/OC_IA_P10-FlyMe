@@ -89,7 +89,6 @@ def test_order_travel_intent_budget_entity():
     test_response = client_runtime.prediction.resolve(CONFIG.LUIS_APP_ID, query=test_request)
 
     expected_budget = "1000 usd"
-    #response_entity = test_response.entities[0]
     actual_budget = ""
     if test_response.entities[0].type == 'Price':
         actual_budget = test_response.entities[0].entity
