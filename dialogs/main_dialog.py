@@ -76,20 +76,16 @@ class MainDialog(ComponentDialog):
         )
 
     async def act_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        if not self._luis_recognizer.is_configured:  
-            print("LUIS NOT CONFIGURED")         
+        if not self._luis_recognizer.is_configured:          
             # LUIS is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
             return await step_context.begin_dialog(
                 self._booking_dialog_id, BookingDetails()
             )
 
-        print("LUIS CONFIGURED")
         # Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
         intent, luis_result = await LuisHelper.execute_luis_query(
             self._luis_recognizer, step_context.context
         )
-
-        print("INTENT :",intent)
 
         if intent == Intent.BOOK_FLIGHT.value and luis_result:
             # Run the BookingDialog giving it whatever details we have from the LUIS call.
