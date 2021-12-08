@@ -160,16 +160,24 @@ class BookingDialog(CancelAndHelpDialog):
         )
 
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        """Complete the interaction and end the dialog."""
+        """Complete the interaction, create trace for monitoring and end the dialog."""
+        
+        booking_details = step_context.options
+
+        booking_info = {}
+        booking_info["origin"] = booking_details.origin
+        booking_info["destination"] = booking_details.destination
+        booking_info["start_travel_date"] = booking_details.start_travel_date
+        booking_info["end_travel_date"] = booking_details.end_travel_date
+        booking_info["budget"] = booking_details.budget
+
         if step_context.result:
-            print("IN FINAL STEP")
-            booking_details = step_context.options
-            #booking_details.travel_date = step_context.result
-
+            self.telemetry_client.track_trace("Transaction confirmed by the user : YES", booking_info, "INFO")
             return await step_context.end_dialog(booking_details)
+        else:
+            self.telemetry_client.track_trace("Transaction confirmed by the user : NO", booking_info, "ERROR")
+            return await step_context.end_dialog()
 
-        print("OUT FINAL STEP")
-        return await step_context.end_dialog()
 
     def is_ambiguous(self, timex: str) -> bool:
         """Ensure time is correct."""
