@@ -7,19 +7,8 @@ CONFIG = DefaultConfig()
 runtime_credentials = CognitiveServicesCredentials(CONFIG.LUIS_API_KEY)
 client_runtime = LUISRuntimeClient(endpoint=CONFIG.LUIS_API_ENDPOINT, credentials=runtime_credentials)
 
-def test_greetings_intent():
-    """
-    runtime_credentials = CognitiveServicesCredentials(CONFIG.LUIS_API_KEY)
-    #client_runtime = LUISRuntimeClient(endpoint=CONFIG.LUIS_API_ENDPOINT, credentials=runtime_credentials)
-    client_runtime = LUISRuntimeClient(CONFIG.LUIS_API_HOST_NAME, credentials=runtime_credentials)
 
-    client_runtime = LUISRuntimeClient(
-        CONFIG.LUIS_API_HOST_NAME,
-        CognitiveServicesCredentials(CONFIG.LUIS_API_KEY))
-    """
-    
-    #runtime_credentials = CognitiveServicesCredentials(CONFIG.LUIS_API_KEY)
-    #client_runtime = LUISRuntimeClient(endpoint=CONFIG.LUIS_API_ENDPOINT, credentials=runtime_credentials)
+def test_greetings_intent():
 
     test_request = "Hello"
     test_response = client_runtime.prediction.resolve(CONFIG.LUIS_APP_ID, query=test_request)
@@ -27,19 +16,6 @@ def test_greetings_intent():
     expected_intent = "GreetingsIntent"
     actual_intent = test_response.top_scoring_intent.intent
     assert actual_intent == expected_intent
-
-    """
-    runtime_credentials = CognitiveServicesCredentials(CONFIG.LUIS_API_KEY)
-    client_runtime = LUISRuntimeClient(endpoint=CONFIG.LUIS_API_ENDPOINT, credentials=runtime_credentials)
-
-    test_request = { "query" : "Hello" }
-    test_response = client_runtime.prediction.get_slot_prediction(CONFIG.LUIS_APP_ID, "Production", test_request)
-
-    expected_intent = "GreetingsIntent"
-    actual_intent = test_response.prediction.top_intent
-
-    assert actual_intent == expected_intent
-    """
 
 
 def test_none_intent():
