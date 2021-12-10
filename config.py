@@ -23,8 +23,8 @@ class DefaultConfig:
     """
     LUIS_APP_ID = os.environ.get("LuisAppId", "52c42e40-1395-47e1-9fcb-d8e59de2d71b")
     LUIS_API_KEY = os.environ.get("LuisAPIKey", "87488d948aba4eb39f8986e82d88d0a2")
-    #LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName", "francecentral.api.cognitive.microsoft.com")
-    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName", "https://flyme-luis.cognitiveservices.azure.com/")
+    LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName", "francecentral.api.cognitive.microsoft.com")
+    #LUIS_API_HOST_NAME = os.environ.get("LuisAPIHostName", "https://flyme-luis.cognitiveservices.azure.com/")
     LUIS_API_ENDPOINT = os.environ.get("LuisAPIEndPoint", "https://flyme-luis.cognitiveservices.azure.com/")
     
     #APP INSIGHTS CONFIGURATION 
