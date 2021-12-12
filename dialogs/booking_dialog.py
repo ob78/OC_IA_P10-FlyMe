@@ -53,6 +53,7 @@ class BookingDialog(CancelAndHelpDialog):
 
         self.initial_dialog_id = WaterfallDialog.__name__
         
+        #Python dictionary used to save chat history
         self.chat_history = dict()
 
     async def origin_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
